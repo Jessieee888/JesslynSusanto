@@ -96,21 +96,24 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-grad
 .role{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
 #roleTxt{transition:opacity .25s,transform .25s;display:inline-block}
 #roleTxt.out{opacity:0;transform:translateY(6px)}
-#wave{display:inline-block;transform-origin:70% 70%;font-size:22px}
+#wave{display:inline-block;transform-origin:50% 50%;width:24px;height:24px}
 #wave.go{animation:wv .9s}
 @keyframes wv{0%,100%{transform:rotate(0)}20%{transform:rotate(16deg)}40%{transform:rotate(-10deg)}60%{transform:rotate(14deg)}80%{transform:rotate(-4deg)}}
-.spark{position:fixed;pointer-events:none;z-index:9;font-size:18px;transition:transform .8s ease-out,opacity .8s}
+.spark{position:fixed;pointer-events:none;z-index:9;width:18px;height:18px;transition:transform .8s ease-out,opacity .8s}
 .ib{border-radius:99px}
 h2::after{content:"";display:block;width:36px;height:4px;border-radius:4px;background:var(--acc);margin-top:8px}
 
 .fact,.skills,.proj,.badge{border-radius:24px 24px 24px 8px}
 h2::after{width:34px;height:14px;border-radius:0 100% 0 100%;margin-top:8px}
 .leaves{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-.leaves span{position:absolute;top:-40px;font-size:22px;opacity:.25;animation:fall linear infinite}
-.leaves span:nth-child(1){left:12%;animation-duration:26s}
-.leaves span:nth-child(2){left:34%;animation-duration:32s;animation-delay:-12s;font-size:18px}
-.leaves span:nth-child(3){left:58%;animation-duration:28s;animation-delay:-6s}
-.leaves span:nth-child(4){left:78%;animation-duration:36s;animation-delay:-20s;font-size:16px}
-.leaves span:nth-child(5){left:92%;animation-duration:30s;animation-delay:-2s}
+.leaves img{position:absolute;top:-40px;width:22px;height:22px;opacity:.25;animation:fall linear infinite}
+.leaves img:nth-child(1){left:12%;animation-duration:26s}
+.leaves img:nth-child(2){left:34%;animation-duration:32s;animation-delay:-12s;width:18px;height:18px}
+.leaves img:nth-child(3){left:58%;animation-duration:28s;animation-delay:-6s}
+.leaves img:nth-child(4){left:78%;animation-duration:36s;animation-delay:-20s;width:16px;height:16px}
+.leaves img:nth-child(5){left:92%;animation-duration:30s;animation-delay:-2s}
 @keyframes fall{0%{transform:translate(0,-40px) rotate(0)}50%{transform:translate(40px,55vh) rotate(160deg)}100%{transform:translate(-20px,112vh) rotate(320deg)}}
 @media (prefers-reduced-motion:reduce){.leaves{display:none}}
+.chip{background:#fff;color:#163524;border-color:#fff}
+.chip:hover{border-color:var(--acc)}
+.chip[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
