@@ -1,42 +1,127 @@
 /* ==========================================================
    THEME COLOURS
+   Light mode = green page with white cards.
+   Dark mode  = black page with black cards.
    Change the colours here and the whole site updates.
    ========================================================== */
 
-/* Default: deep forest */
-:root {
-  --bg: #163524;          /* page background */
-  --surf: #1f4530;        /* cards */
-  --ink: #eef6e8;         /* main text */
-  --mute: #b5cdb0;        /* softer text */
-  --line: #33604a;        /* borders */
-  --acc: #b9e27c;         /* accent (buttons, highlights) */
-  --acc2: rgba(185, 226, 124, 0.15);  /* soft accent background */
-  --acc-ink: #163524;     /* text on top of the accent */
-  --g1: rgba(240, 222, 120, 0.2);     /* background glow (sun) */
-  --g2: rgba(90, 190, 140, 0.2);      /* background glow (mist) */
+/* LIGHT (default) */
+:root,
+:root[data-theme="light"] {
+  /* page */
+  --bg: #163524;
+  --ink: #eef6e8;
+  --mute: #b5cdb0;
+  --line: #33604a;
+  --acc: #b9e27c;
+  --acc2: rgba(185, 226, 124, 0.15);
+  --acc-ink: #163524;
+  --g1: rgba(240, 222, 120, 0.2);
+  --g2: rgba(90, 190, 140, 0.2);
+
+  /* cards */
+  --card-bg: #ffffff;
+  --card-ink: #163524;
+  --card-mute: #587058;
+  --card-line: #d3e3c8;
+  --card-acc: #2f7d3c;
+  --card-acc2: #e3f1da;
+  --card-acc-ink: #ffffff;
+
+  /* skill bubbles */
+  --chip-bg: #163524;
+  --chip-ink: #eef6e8;
+  --chip-line: #33604a;
+  --chip-sel: #b9e27c;
+  --chip-sel-ink: #163524;
 
   box-sizing: border-box;
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-:root[data-theme="dark"] {
-  --bg: #163524;
+/* DARK: follows the device setting until the toggle is used */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+  /* page */
+    --bg: #000000;
+    --ink: #ececec;
+    --mute: #a3a3a3;
+    --line: #2a2a2a;
+    --acc: #b9e27c;
+    --acc2: rgba(185, 226, 124, 0.14);
+    --acc-ink: #0a0a0a;
+    --g1: rgba(255, 255, 255, 0.05);
+    --g2: rgba(255, 255, 255, 0.03);
+  
+    /* cards */
+    --card-bg: #0a0a0a;
+    --card-ink: #ececec;
+    --card-mute: #a3a3a3;
+    --card-line: #2a2a2a;
+    --card-acc: #b9e27c;
+    --card-acc2: rgba(185, 226, 124, 0.14);
+    --card-acc-ink: #0a0a0a;
+  
+    /* skill bubbles */
+    --chip-bg: #1e1e1e;
+    --chip-ink: #ececec;
+    --chip-line: #333333;
+    --chip-sel: #b9e27c;
+    --chip-sel-ink: #0a0a0a;
+  }
 }
 
-/* Light sage (Theme button) */
-:root[data-theme="light"] {
-  --bg: #e8f1de;
-  --surf: #fbfdf6;
-  --ink: #1c3324;
-  --mute: #587058;
-  --line: #c9dcbd;
-  --acc: #2f7d3c;
-  --acc2: #dcefd3;
-  --acc-ink: #fff;
-  --g1: rgba(250, 224, 120, 0.4);
-  --g2: rgba(120, 200, 150, 0.3);
+/* DARK: when chosen with the toggle button */
+:root[data-theme="dark"] {
+  /* page */
+  --bg: #000000;
+  --ink: #ececec;
+  --mute: #a3a3a3;
+  --line: #2a2a2a;
+  --acc: #b9e27c;
+  --acc2: rgba(185, 226, 124, 0.14);
+  --acc-ink: #0a0a0a;
+  --g1: rgba(255, 255, 255, 0.05);
+  --g2: rgba(255, 255, 255, 0.03);
+
+  /* cards */
+  --card-bg: #0a0a0a;
+  --card-ink: #ececec;
+  --card-mute: #a3a3a3;
+  --card-line: #2a2a2a;
+  --card-acc: #b9e27c;
+  --card-acc2: rgba(185, 226, 124, 0.14);
+  --card-acc-ink: #0a0a0a;
+
+  /* skill bubbles */
+  --chip-bg: #1e1e1e;
+  --chip-ink: #ececec;
+  --chip-line: #333333;
+  --chip-sel: #b9e27c;
+  --chip-sel-ink: #0a0a0a;
+}
+
+
+/* ==========================================================
+   CARDS
+   Every big card uses the --card-* colours above.
+   ========================================================== */
+
+.fact,
+.skills,
+.proj,
+.badge,
+.cta .ib {
+  --surf: var(--card-bg);
+  --ink: var(--card-ink);
+  --mute: var(--card-mute);
+  --line: var(--card-line);
+  --acc: var(--card-acc);
+  --acc2: var(--card-acc2);
+  --acc-ink: var(--card-acc-ink);
+
+  color: var(--ink);
 }
 
 
@@ -58,6 +143,7 @@ body {
   background: var(--bg);
   color: var(--ink);
   font: 400 16px/1.65 "Instrument Sans", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
   transition: background 0.3s, color 0.3s;
 }
 
@@ -330,7 +416,7 @@ nav a.on::before {
   color: var(--acc-ink);
 }
 
-/* Skill boxes (white) */
+/* Skill bubbles (green) */
 .chips {
   display: flex;
   flex-wrap: wrap;
@@ -340,9 +426,9 @@ nav a.on::before {
 
 .chip {
   font: 500 14px "Instrument Sans", sans-serif;
-  color: #163524;
-  background: #fff;
-  border: 1px solid #fff;
+  color: var(--chip-ink);
+  background: var(--chip-bg);
+  border: 1px solid var(--chip-line);
   border-radius: 99px;
   padding: 6px 12px;
   cursor: pointer;
@@ -350,15 +436,15 @@ nav a.on::before {
 }
 
 .chip:hover {
-  border-color: var(--acc);
+  border-color: var(--chip-sel);
   transform: rotate(-2deg) scale(1.04);
 }
 
 /* Selected skill */
 .chip[aria-pressed="true"] {
-  background: var(--acc);
-  border-color: var(--acc);
-  color: var(--acc-ink);
+  background: var(--chip-sel);
+  border-color: var(--chip-sel);
+  color: var(--chip-sel-ink);
 }
 
 .hint {
