@@ -37,6 +37,9 @@
   --chip-sel: #b9e27c;
   --chip-sel-ink: #163524;
 
+  /* icon colour on cards (black icons: normal on white, flipped on dark) */
+  --icon-filter: none;
+
   box-sizing: border-box;
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -73,6 +76,7 @@
     --chip-line: #2a2a2a;
     --chip-sel: #b9e27c;
     --chip-sel-ink: #0a0a0a;
+  --icon-filter: invert(1);
   }
 }
 
@@ -106,6 +110,7 @@
   --chip-line: #2a2a2a;
   --chip-sel: #b9e27c;
   --chip-sel-ink: #0a0a0a;
+  --icon-filter: invert(1);
 }
 
 
@@ -324,14 +329,6 @@ nav a.on::before {
   background: var(--acc);
 }
 
-/* Bottom buttons (email, LinkedIn, GitHub, theme) */
-.side-foot {
-  margin-top: auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
 
 /* ==========================================================
    BUTTONS
@@ -352,6 +349,38 @@ nav a.on::before {
 .ib:hover {
   border-color: var(--acc);
   background: var(--acc2);
+}
+
+/* Dark mode button, top-left above the name */
+.theme-toggle {
+  margin: 0 0 28px;
+}
+
+/* Icons inside buttons */
+.ico {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  fill: currentColor;
+  object-fit: contain;
+  filter: var(--icon-filter);
+}
+
+/* Some logo files have extra empty space around them, so nudge their size to match */
+.ico-linkedin { transform: scale(1.35); }
+.ico-mail     { transform: scale(1.15); }
+.ico-phone    { transform: scale(1.15); }
+
+.lab {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ib:not(.cta .ib) {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 
@@ -588,6 +617,20 @@ nav a.on::before {
 }
 
 
+/* Less gap between the list and the link button */
+.body ul:has(+ .plinks) {
+  padding-bottom: 14px;
+}
+
+/* Link buttons inside a project (live site, LinkedIn) */
+.plinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0 24px 22px 44px;
+}
+
+
 /* ==========================================================
    TIMELINE (experience + education)
    ========================================================== */
@@ -808,10 +851,6 @@ nav a.on::before {
 
   nav a.on {
     color: var(--acc);
-  }
-
-  .side-foot {
-    margin: 20px 0;
   }
 
   main {
