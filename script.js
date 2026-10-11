@@ -31,9 +31,19 @@
     return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   }
 
+  // Icons for the button (moon = switch to dark, sun = switch to light)
+  const THEME_ICONS = {
+    dark:  "Assets/dark_mode.svg",
+    light: "Assets/light_mode.svg",
+  };
+
   // The button names the mode you'll switch TO
   function updateThemeLabel() {
-    themeButton.textContent = currentMode() === "dark" ? "Light mode" : "Dark mode";
+    const next = currentMode() === "dark" ? "light" : "dark";
+    const label = next === "dark" ? "Dark mode" : "Light mode";
+
+    themeButton.innerHTML =
+      `<img class="ico" src="${THEME_ICONS[next]}" alt="">${label}`;
   }
 
   themeButton.onclick = () => {
@@ -333,9 +343,8 @@
 
   const ROLES = [
     "Data Science and AI student",
-    "Game developer",
-    "3D artist",
-    "Piano player",
+    "Software Development Minor",
+    "3D artist"
   ];
 
   const roleText = $("#roleTxt");
@@ -361,4 +370,67 @@
   };
 
   if (!prefersReducedMotion()) setInterval(showNextRole, 3500);
+
+  /* ==========================================================
+     PHOTO BACKGROUNDS
+     Put your photos in the Assets folder, then list them here.
+     Photos that can't be found are skipped, so nothing breaks.
+     ========================================================== */
+
+  // Left side: one photo
+  const LEFT_PHOTO = "Assets/left-photo.jpg";
+
+  // Right side: landscape photos that change on their own
+  const LANDSCAPES = [
+    "Assets/landscape-1.jpg",
+    "Assets/landscape-2.jpg",
+    "Assets/landscape-3.jpg",
+  ];
+
+  const SECONDS_PER_PHOTO = 8;
+
+  // Resolves with the file name if the image loads, or null if it doesn't
+  function loadImage(src) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(src);
+      img.onerror = () => resolve(null);
+      img.src = src;
+    });
+  }
+
+  loadImage(LEFT_PHOTO).then((src) => {
+    if (!src) return;
+    const side = $("#sidePhoto");
+    side.style.backgroundImage = `url("${src}")`;
+    side.classList.add("on");
+  });
+
+  Promise.all(LANDSCAPES.map(loadImage)).then((results) => {
+    const found = results.filter(Boolean);
+    if (found.length === 0) return;
+
+    const box = $("#slides");
+
+    found.forEach((src, index) => {
+      const slide = document.createElement("div");
+      slide.className = "slide" + (index === 0 ? " show" : "");
+      slide.style.backgroundImage = `url("${src}")`;
+      box.appendChild(slide);
+    });
+
+    box.classList.add("on");
+
+    // One photo, or reduced motion: no changing needed
+    if (found.length < 2 || prefersReducedMotion()) return;
+
+    const slides = [...box.children];
+    let current = 0;
+
+    setInterval(() => {
+      slides[current].classList.remove("show");
+      current = (current + 1) % slides.length;
+      slides[current].classList.add("show");
+    }, SECONDS_PER_PHOTO * 1000);
+  });
 })();

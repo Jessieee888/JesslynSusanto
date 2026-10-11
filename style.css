@@ -40,6 +40,10 @@
   /* icon colour on cards (black icons: normal on white, flipped on dark) */
   --icon-filter: none;
 
+  /* dark layer on top of photos so the text stays readable */
+  --scrim-side: linear-gradient(180deg, rgba(8, 24, 14, 0.6), rgba(8, 24, 14, 0.8));
+  --scrim: rgba(8, 24, 14, 0.58);
+
   box-sizing: border-box;
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -77,6 +81,8 @@
     --chip-sel: #b9e27c;
     --chip-sel-ink: #0a0a0a;
   --icon-filter: invert(1);
+  --scrim-side: linear-gradient(180deg, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.85));
+  --scrim: rgba(0, 0, 0, 0.72);
   }
 }
 
@@ -111,6 +117,8 @@
   --chip-sel: #b9e27c;
   --chip-sel-ink: #0a0a0a;
   --icon-filter: invert(1);
+  --scrim-side: linear-gradient(180deg, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.85));
+  --scrim: rgba(0, 0, 0, 0.72);
 }
 
 
@@ -178,8 +186,9 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-size: 42px;
+  font-size: clamp(28px, 9vw, 34px);   /* shrinks a little on small phones */
   letter-spacing: -0.01em;
+  white-space: nowrap;                  /* keeps the name on one line */
 }
 
 h2 {
@@ -212,17 +221,33 @@ a {
    LAYOUT (sidebar + content)
    ========================================================== */
 
-.layout {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 64px;
+/* Width of the left column (change this to make the left side wider or thinner) */
+:root {
+  --side-w: clamp(380px, 32vw, 480px);
+  --outer: clamp(20px, 5vw, 80px);   /* space between the page and the left/right edges of the screen */
 }
 
-main {
-  padding: 56px 0 80px;
+.layout {
+  display: grid;
+  grid-template-columns: var(--side-w) minmax(0, 1fr);
+  min-height: 100vh;
+  width: calc(100% - var(--outer) * 2);
+  max-width: 1320px;
+  margin: 0 auto;
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+  border-right: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Right side: the divider line sits on its left edge */
+.right {
+  position: relative;
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.right main {
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 56px clamp(24px, 4vw, 56px) 80px;
 }
 
 section {
@@ -239,7 +264,8 @@ aside {
   top: 0;
   align-self: start;
   height: 100vh;
-  padding: 56px 0 32px;
+  padding: 56px 40px 32px;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
 }
@@ -332,6 +358,71 @@ nav a.on::before {
 
 
 /* ==========================================================
+   PHOTO BACKGROUNDS
+   Left: one photo.  Right: landscape photos that fade into each other.
+   (Which photos to use is set at the top of the PHOTOS section in script.js)
+   ========================================================== */
+
+/* Left side photo (fills the whole left column) */
+.side-photo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.side-photo.on {
+  opacity: 1;
+}
+
+.side-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--scrim-side);
+}
+
+/* Right side slideshow (stays in place while the page scrolls) */
+.slides {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  margin-bottom: -100vh;   /* lets the content sit on top of the photos */
+  z-index: -2;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s;
+}
+
+.slides.on {
+  opacity: 1;
+}
+
+.slides::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--scrim);
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.6s ease;
+}
+
+.slide.show {
+  opacity: 1;
+}
+
+
+/* ==========================================================
    BUTTONS
    ========================================================== */
 
@@ -355,6 +446,11 @@ nav a.on::before {
 /* Dark mode button, top-left above the name */
 .theme-toggle {
   margin: 0 0 28px;
+}
+
+/* Moon / sun icon is black, so flip it to white on the dark page */
+.theme-toggle .ico {
+  filter: invert(1);
 }
 
 /* Icons inside buttons */
@@ -819,15 +915,23 @@ nav a.on::before {
     scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px);
   }
 
+  /* Phones: use the full screen width, no side space or frame lines */
   .layout {
-    grid-template-columns: 1fr;
-    gap: 0;
+    grid-template-columns: minmax(0, 1fr);   /* stops the page scrolling sideways on phones */
+    width: 100%;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  /* No divider on phones (everything is stacked) */
+  .right {
+    border-left: 0;
   }
 
   aside {
-    position: static;
+    position: relative;
     height: auto;
-    padding: 32px 0 8px;
+    padding: 32px 24px 8px;
   }
 
   /* Nav becomes a sticky bar across the top */
@@ -856,7 +960,7 @@ nav a.on::before {
     color: var(--acc);
   }
 
-  main {
+  .right main {
     padding-top: 36px;
   }
 
