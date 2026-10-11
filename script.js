@@ -62,9 +62,7 @@
 
   // The flower images used in the burst
   const FLOWERS = [
-    "images/flower-pink.svg",
-    "images/flower-white.svg",
-    "images/flower-yellow.svg",
+    "Assets/baby-blue-eyes-transparent.png",
   ];
 
   // Shoots a few flowers up from the point (x, y)

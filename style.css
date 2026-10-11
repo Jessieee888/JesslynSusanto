@@ -274,6 +274,7 @@ aside {
 
 #wave {
   display: inline-block;
+  object-fit: contain;
   width: 24px;
   height: 24px;
   transform-origin: 50% 50%;
@@ -770,8 +771,9 @@ nav a.on::before {
 .spark {
   position: fixed;
   z-index: 9;
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
   pointer-events: none;
   transition: transform 0.8s ease-out, opacity 0.8s;
 }
@@ -787,17 +789,18 @@ nav a.on::before {
 
 .leaves img {
   position: absolute;
-  top: -40px;
-  width: 22px;
-  height: 22px;
-  opacity: 0.25;
+  top: -60px;
+  width: 44px;
+  height: 44px;
+  opacity: 0.4;
+  object-fit: contain;
   animation: fall linear infinite;
 }
 
 .leaves img:nth-child(1) { left: 12%; animation-duration: 26s; }
-.leaves img:nth-child(2) { left: 34%; animation-duration: 32s; animation-delay: -12s; width: 18px; height: 18px; }
+.leaves img:nth-child(2) { left: 34%; animation-duration: 32s; animation-delay: -12s; width: 34px; height: 34px; }
 .leaves img:nth-child(3) { left: 58%; animation-duration: 28s; animation-delay: -6s; }
-.leaves img:nth-child(4) { left: 78%; animation-duration: 36s; animation-delay: -20s; width: 16px; height: 16px; }
+.leaves img:nth-child(4) { left: 78%; animation-duration: 36s; animation-delay: -20s; width: 30px; height: 30px; }
 .leaves img:nth-child(5) { left: 92%; animation-duration: 30s; animation-delay: -2s; }
 
 @keyframes fall {
