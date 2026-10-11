@@ -53,8 +53,8 @@
     --acc: #b9e27c;
     --acc2: rgba(185, 226, 124, 0.14);
     --acc-ink: #0a0a0a;
-    --g1: rgba(255, 255, 255, 0.05);
-    --g2: rgba(255, 255, 255, 0.03);
+    --g1: rgba(70, 190, 130, 0.30);
+    --g2: rgba(185, 226, 124, 0.16);
   
     /* cards */
     --card-bg: #15301f;
@@ -86,8 +86,8 @@
   --acc: #b9e27c;
   --acc2: rgba(185, 226, 124, 0.14);
   --acc-ink: #0a0a0a;
-  --g1: rgba(255, 255, 255, 0.05);
-  --g2: rgba(255, 255, 255, 0.03);
+  --g1: rgba(70, 190, 130, 0.30);
+  --g2: rgba(185, 226, 124, 0.16);
 
   /* cards */
   --card-bg: #15301f;
@@ -523,15 +523,19 @@ nav a.on::before {
 .ph {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   gap: 12px;
 }
 
 .tog {
+  display: inline-flex;
   color: var(--acc);
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
+  transition: transform 0.25s;
+}
+
+/* Arrow flips upside down when the card is open */
+.proj.open .tog {
+  transform: rotate(180deg);
 }
 
 /* Tech tags (Godot, HTML, etc.) */

@@ -220,7 +220,7 @@
 
   const projects = $$(".proj");
   let activeTab = Object.keys(SKILLS)[0];   // tab being shown
-  let activeSkill = null;                   // { tag, name } or null
+  const selectedSkills = new Map();         // tag -> display name
 
   function drawTabs() {
     $("#tabs").innerHTML = Object.keys(SKILLS)
@@ -243,36 +243,39 @@
     $("#chips").innerHTML = SKILLS[activeTab]
       .map((name) => {
         const tag = tagFor(name);
-        const isSelected = activeSkill && activeSkill.tag === tag;
         return `
-          <button class="chip" aria-pressed="${!!isSelected}"
+          <button class="chip" aria-pressed="${selectedSkills.has(tag)}"
                   data-tag="${tag}" data-name="${name}">${name}</button>`;
       })
       .join("");
 
+    // Click a skill to select it, click again to unselect it.
+    // You can select as many as you like.
     $$(".chip").forEach((chip) => {
       chip.onclick = () => {
         const tag = chip.dataset.tag;
-        const alreadySelected = activeSkill && activeSkill.tag === tag;
 
-        activeSkill = alreadySelected ? null : { tag, name: chip.dataset.name };
+        if (selectedSkills.has(tag)) selectedSkills.delete(tag);
+        else selectedSkills.set(tag, chip.dataset.name);
+
         drawSkillBubbles();
         filterProjects();
       };
     });
   }
 
-  // Fade projects that don't use the selected skill
+  // Fade projects that don't use ALL of the selected skills
   function filterProjects() {
+    const tags = [...selectedSkills.keys()];
     let matches = 0;
 
     projects.forEach((project) => {
-      const usesSkill =
-        !activeSkill || project.dataset.s.split(",").includes(activeSkill.tag);
+      const projectTags = project.dataset.s.split(",");
+      const usesAll = tags.every((tag) => projectTags.includes(tag));
 
-      project.classList.toggle("dim", !usesSkill);
-      project.classList.toggle("hit", !!activeSkill && usesSkill);
-      if (usesSkill) matches++;
+      project.classList.toggle("dim", !usesAll);
+      project.classList.toggle("hit", tags.length > 0 && usesAll);
+      if (usesAll) matches++;
     });
 
     updateHint(matches);
@@ -281,28 +284,25 @@
   function updateHint(matches) {
     const hint = $("#hint");
 
-    if (!activeSkill) {
-      hint.textContent = "Select a skill to see which projects use it.";
+    if (selectedSkills.size === 0) {
+      hint.textContent = "Select one or more skills to see which projects use them.";
       return;
     }
 
-    const message = matches
-      ? `${matches} project${matches > 1 ? "s" : ""} highlighted for ${activeSkill.name}. `
-      : `No listed project uses ${activeSkill.name} yet. `;
+    const names = [...selectedSkills.values()].join(" + ");
+    const together = selectedSkills.size > 1 ? " together" : "";
 
-    hint.innerHTML =
-      message +
-      '<button id="clear-skill">Clear</button> ' +
-      (matches ? '<button id="go-projects">Jump to projects</button>' : "");
+    const message = matches
+      ? `${matches} project${matches > 1 ? "s" : ""} use${matches > 1 ? "" : "s"} ${names}${together}. `
+      : `No listed project uses ${names}${together}. `;
+
+    hint.innerHTML = message + '<button id="clear-skill">Clear all</button>';
 
     $("#clear-skill").onclick = () => {
-      activeSkill = null;
+      selectedSkills.clear();
       drawSkillBubbles();
       filterProjects();
     };
-
-    const jump = $("#go-projects");
-    if (jump) jump.onclick = () => $("#projects").scrollIntoView();
   }
 
   drawTabs();
@@ -321,10 +321,6 @@
 
         container.classList.toggle("open", isOpen);
         button.setAttribute("aria-expanded", isOpen);
-
-        // Project cards also have a small "Details / Hide" label
-        const label = button.querySelector(".tog");
-        if (label) label.textContent = isOpen ? "Hide" : "Details";
       });
     });
   }
