@@ -368,8 +368,9 @@ nav a.on::before {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-size: cover;
-  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto 110%;
+  background-position: 60% -10%;
   opacity: 0;
   transition: opacity 1s;
 }
@@ -382,7 +383,13 @@ nav a.on::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--scrim-side);
+  background: linear-gradient(180deg,
+  rgba(0, 0, 0, 0.4)  5%,
+  rgba(0, 0, 0, 0.4) 12%,
+  rgba(0, 0, 0, 0.55) 28%,
+  rgba(0, 0, 0, 0.68) 45%,
+  rgba(0, 0, 0, 0.78) 100%
+);
 }
 
 /* Right side slideshow (stays in place while the page scrolls) */
@@ -445,7 +452,7 @@ nav a.on::before {
 
 /* Dark mode button, top-left above the name */
 .theme-toggle {
-  margin: 0 0 28px;
+  margin: 0 0 15%;
 }
 
 /* Moon / sun icon is black, so flip it to white on the dark page */

@@ -377,14 +377,16 @@
      Photos that can't be found are skipped, so nothing breaks.
      ========================================================== */
 
-  // Left side: one photo
-  const LEFT_PHOTO = "Assets/left-photo.jpg";
+  // Left side: your cut-out photo (shown standing at the bottom of the left panel)
+  const LEFT_PHOTO = "Assets/Jess.png";
 
-  // Right side: landscape photos that change on their own
+  // Right side: photos that change on their own.
+  // "position" = which part of the photo stays visible when it has to be cropped
+  // (first word = left/center/right, second = how far down, 0% = top, 100% = bottom)
   const LANDSCAPES = [
-    "Assets/landscape-1.jpg",
-    "Assets/landscape-2.jpg",
-    "Assets/landscape-3.jpg",
+    { src: "Assets/lotr_bg.jpg",      position: "center 40%" },
+    { src: "Assets/lotr_bg2.jpg",     position: "center 85%" },
+    { src: "Assets/flower_field.jpg", position: "center 60%" },
   ];
 
   const SECONDS_PER_PHOTO = 8;
@@ -406,16 +408,18 @@
     side.classList.add("on");
   });
 
-  Promise.all(LANDSCAPES.map(loadImage)).then((results) => {
-    const found = results.filter(Boolean);
+  Promise.all(LANDSCAPES.map((photo) => loadImage(photo.src))).then((results) => {
+    // keep only the photos that loaded
+    const found = LANDSCAPES.filter((photo, index) => results[index]);
     if (found.length === 0) return;
 
     const box = $("#slides");
 
-    found.forEach((src, index) => {
+    found.forEach((photo, index) => {
       const slide = document.createElement("div");
       slide.className = "slide" + (index === 0 ? " show" : "");
-      slide.style.backgroundImage = `url("${src}")`;
+      slide.style.backgroundImage = `url("${photo.src}")`;
+      slide.style.backgroundPosition = photo.position;
       box.appendChild(slide);
     });
 
