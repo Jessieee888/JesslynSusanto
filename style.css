@@ -392,6 +392,18 @@ nav a.on::before {
 );
 }
 
+/* Subtle green glow on the left box (works in light and dark mode) */
+aside::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 55% at 0% 0%, rgba(110, 210, 150, 0.22), transparent 65%),
+    linear-gradient(180deg, transparent 50%, rgba(110, 210, 150, 0.16) 100%);
+}
+
 /* Right side slideshow (stays in place while the page scrolls) */
 .slides {
   position: sticky;
