@@ -192,19 +192,23 @@ h1 {
 }
 
 h2 {
+  display: flex;                /* puts the leaf and the text side by side */
+  align-items: center;          /* leaf lines up with the middle of the text */
+  gap: 12px;                    /* space between the leaf and the heading */
   font-size: 28px;
   margin-bottom: 24px;
 }
 
-/* Little flower-petal shape under each heading */
-h2::after {
+/* Lorien leaf before each heading, like a bullet point */
+h2::before {
   content: "";
-  display: block;
-  width: 34px;
-  height: 14px;
-  margin-top: 8px;
-  border-radius: 0 100% 0 100%;
-  background: var(--acc);
+  flex: none;
+  width: 40px;
+  height: 28px;
+  /* transform: rotate(15deg); */
+  background: url("Assets/lorien_leaf_brooch.png") no-repeat;
+  background-size: 40px 40px;        /* the picture has empty space on top... */
+  background-position: 0 -9px;       /* ...so it is moved up to hide that space */
 }
 
 a {
