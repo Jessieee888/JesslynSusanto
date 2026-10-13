@@ -1004,22 +1004,3 @@ svg.ico {
     grid-template-columns: 1fr;
   }
 }
-
-
-/* ==========================================================
-   REDUCED MOTION (for people who turn animations off)
-   ========================================================== */
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  * {
-    transition: none !important;
-  }
-
-  .leaves {
-    display: none;
-  }
-}
