@@ -192,9 +192,9 @@ h1 {
 }
 
 h2 {
-  display: flex;                /* puts the leaf and the text side by side */
-  align-items: center;          /* leaf lines up with the middle of the text */
-  gap: 12px;                    /* space between the leaf and the heading */
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-size: 28px;
   margin-bottom: 24px;
 }
@@ -484,6 +484,11 @@ aside::after {
   fill: currentColor;
   object-fit: contain;
   filter: var(--icon-filter);
+}
+
+svg.ico {
+  filter: none;
+  color: var(--card-ink);
 }
 
 /* Some logo files have extra empty space around them, so nudge their size to match */
@@ -962,7 +967,6 @@ aside::after {
     position: sticky;
     top: env(safe-area-inset-top, 0px);
     z-index: 5;
-    margin: 0 -24px;
     padding: 0 24px;
     background: var(--bg);
     border-bottom: 1px solid var(--line);

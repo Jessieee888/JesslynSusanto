@@ -133,6 +133,19 @@
 
   const navLinks = $$("#nav a");
 
+  // On phones, move the nav out of the sidebar so it can stay stuck
+  const navBar = $("aside nav");
+  const sideBar = $("aside");
+  const phoneQuery = matchMedia("(max-width: 860px)");
+
+  function placeNav() {
+    if (phoneQuery.matches) sideBar.after(navBar);   // phone: direct child of .layout
+    else sideBar.appendChild(navBar);                // desktop: back inside the sidebar
+  }
+
+  placeNav();
+  phoneQuery.addEventListener("change", placeNav);
+
   // Highlight the menu link for whichever section is on screen
   const sectionWatcher = new IntersectionObserver(
     (entries) => {
