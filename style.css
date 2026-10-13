@@ -933,6 +933,14 @@ svg.ico {
   100% { transform: translate(-20px, 112vh) rotate(320deg); }
 }
 
+/* Tablet / wide-but-stacked screens: zoom the photo in.
+   Phones (under 600px) and laptops (over 860px) are unchanged. */
+@media (min-width: 600px) and (max-width: 860px) {
+  .side-photo {
+    background-size: 40% auto;       /* bigger % = more zoomed in */
+    background-position: 90% -10%;     /* left/right, up/down */
+  }
+}
 
 /* ==========================================================
    MOBILE (screens under 860px wide)
