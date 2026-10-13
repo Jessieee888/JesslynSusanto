@@ -374,7 +374,7 @@ nav a.on::before {
   z-index: -1;
   background-repeat: no-repeat;
   background-size: auto 110%;
-  background-position: 60% -10%;
+  background-position: 70% -50%;
   opacity: 0;
   transition: opacity 1s;
 }
@@ -468,7 +468,7 @@ aside::after {
 
 /* Dark mode button, top-left above the name */
 .theme-toggle {
-  margin: 0 0 15%;
+  margin: 0 0 7%;
 }
 
 /* Moon / sun icon is black, so flip it to white on the dark page */
