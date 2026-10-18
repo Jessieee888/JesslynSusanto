@@ -347,7 +347,6 @@
   }
 
   makeExpandable(".proj .head", ".proj");
-  makeExpandable(".item button", ".item");
 
 
   /* ==========================================================

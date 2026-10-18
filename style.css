@@ -770,8 +770,7 @@ svg.ico {
   position: relative;
   padding: 0 0 32px 28px;
 }
-
-/* Dot on the timeline */
+/* Dot on the timeline (hollow in the middle) */
 .item::before {
   content: "";
   position: absolute;
@@ -782,26 +781,11 @@ svg.ico {
   border-radius: 50%;
   background: var(--acc2);
   border: 2px solid var(--acc);
-  transition: background 0.2s;
 }
 
-.item.open::before,
-.item:hover::before {
+/* Filled dot for the roles / studies I'm still doing */
+.item.current::before {
   background: var(--acc);
-}
-
-.item button {
-  all: unset;
-  box-sizing: border-box;
-  display: block;
-  width: 100%;
-  cursor: pointer;
-}
-
-.item button:focus-visible {
-  outline: 2px solid var(--acc);
-  outline-offset: 4px;
-  border-radius: 6px;
 }
 
 .item h3 {
