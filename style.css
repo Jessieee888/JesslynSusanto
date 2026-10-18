@@ -719,7 +719,8 @@ svg.ico {
   transition: grid-template-rows 0.3s;
 }
 
-.proj.open .body {
+.proj.open .body,
+.item.open .body {
   grid-template-rows: 1fr;
 }
 
