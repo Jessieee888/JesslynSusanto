@@ -756,6 +756,40 @@ svg.ico {
   padding: 0 24px 22px 44px;
 }
 
+/* Picture gallery inside a project card */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  padding: 4px 24px 14px 44px;       /* same left space as the bullet list */
+}
+
+.gallery figure {
+  margin: 0;
+}
+
+.gallery img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;                 /* crops a little so both pictures line up */
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: #000;
+}
+
+.gallery figcaption {
+  margin-top: 6px;
+  color: var(--mute);
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .gallery {
+    grid-template-columns: 1fr;      /* stack the pictures on phones */
+    padding-left: 24px;
+  }
+}
 
 /* ==========================================================
    TIMELINE (experience + education)
